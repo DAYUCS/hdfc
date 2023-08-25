@@ -1,0 +1,8 @@
+{
+  "name": "HDFC",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "e715bac5"
+}
