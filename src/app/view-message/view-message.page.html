@@ -3,9 +3,15 @@
     <ion-buttons slot="start">
       <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>HDFC BANK</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="message">
-  
+<ion-content [fullscreen]="true" *ngIf="transactions">
+  <h1>{{transactions[0].txType}} - Inquiry</h1>
 </ion-content>

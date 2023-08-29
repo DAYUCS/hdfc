@@ -38,7 +38,4 @@ export class DataService {
     return this.messages;
   }
 
-  public getMessageById(id: number): Message {
-    return this.messages[id];
-  }
 }
