@@ -14,4 +14,21 @@
 
 <ion-content [fullscreen]="true" *ngIf="transactions">
   <h1>{{transactions[0].txType}} - Inquiry</h1>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Reference No</ion-label>
+      <ion-label>Request Date</ion-label>
+      <ion-label>Beneficiary</ion-label>
+      <ion-label>Amount</ion-label>
+      <ion-label>Status</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let trx of transactions">
+      <ion-label>{{trx.refNo}}</ion-label>
+      <ion-label>{{trx.txDate}}</ion-label>
+      <ion-label>{{trx.txBeneficiary}}</ion-label>
+      <ion-label>{{trx.txAmount}}</ion-label>
+      <ion-label>{{trx.txStatus}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

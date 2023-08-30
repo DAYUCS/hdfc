@@ -34,14 +34,22 @@ export class TrxService {
       refNo: 'GI00359016',
       txDate: '2020-09-15',
       txAmount: 5000,
-      txStatus: 'Pending from Auth3',
+      txStatus: 'Pending from Auth2',
       txType: 'BG Issuance',
+      txBeneficiary: 'Beneficiary3'
+    },
+    {
+      refNo: 'GL00359010',
+      txDate: '2020-09-15',
+      txAmount: 5000,
+      txStatus: 'Pending from Auth3',
+      txType: 'LC Issuance',
       txBeneficiary: 'Beneficiary3'
     }
   ]
   constructor() { }
   
-  public getTransactions(): Transaction[] {
-    return this.transactions;
+  public findPendingTransactionsByTxType(txType: string): Transaction[] {
+    return this.transactions.filter(t => t.txType === txType);
   }
 }
