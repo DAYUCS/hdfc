@@ -17,18 +17,18 @@
 
   <ion-list>
     <ion-list-header>
-      <ion-label>Reference No</ion-label>
-      <ion-label>Request Date</ion-label>
-      <ion-label>Beneficiary</ion-label>
-      <ion-label>Amount</ion-label>
-      <ion-label>Status</ion-label>
+      <ion-label class="ion-text-wrap">Reference Number</ion-label>
+      <ion-label class="ion-text-wrap">Request Date</ion-label>
+      <ion-label class="ion-text-wrap">Beneficiary</ion-label>
+      <ion-label class="ion-text-wrap">Transaction Amount</ion-label>
+      <ion-label class="ion-text-wrap">Current Status</ion-label>
     </ion-list-header>
     <ion-item *ngFor="let trx of transactions">
-      <ion-label>{{trx.refNo}}</ion-label>
-      <ion-label>{{trx.txDate}}</ion-label>
-      <ion-label>{{trx.txBeneficiary}}</ion-label>
-      <ion-label>{{trx.txAmount}}</ion-label>
-      <ion-label>{{trx.txStatus}}</ion-label>
+      <ion-label class="ion-text-wrap">{{trx.refNo}}</ion-label>
+      <ion-label class="ion-text-wrap">{{trx.txDate}}</ion-label>
+      <ion-label class="ion-text-wrap">{{trx.txBeneficiary}}</ion-label>
+      <ion-label class="ion-text-wrap">{{trx.txAmount}}</ion-label>
+      <ion-label class="ion-text-wrap">{{trx.txStatus}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
