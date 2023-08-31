@@ -15,6 +15,11 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'view-details/:refNo',
+    loadChildren: () => import('./view-details/view-details/view-details.module').then( m => m.ViewDetailsPageModule)
+  },
+
 ];
 
 @NgModule({

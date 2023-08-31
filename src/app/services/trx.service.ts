@@ -52,4 +52,8 @@ export class TrxService {
   public findPendingTransactionsByTxType(txType: string): Transaction[] {
     return this.transactions.filter(t => t.txType === txType);
   }
+
+  public findPendingTransactionByRefNo(refNo: string): Transaction {
+    return this.transactions.filter(t => t.refNo === refNo)[0];
+  }
 }
