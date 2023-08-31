@@ -6,6 +6,7 @@ import { ViewMessagePage } from './view-message.page';
 import { IonicModule } from '@ionic/angular';
 
 import { ViewMessagePageRoutingModule } from './view-message-routing.module';
+import { SearchFilterPipe } from './search-filter.pipe';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import { ViewMessagePageRoutingModule } from './view-message-routing.module';
     IonicModule,
     ViewMessagePageRoutingModule
   ],
-  declarations: [ViewMessagePage]
+  declarations: [ViewMessagePage, SearchFilterPipe]
 })
 export class ViewMessagePageModule {}

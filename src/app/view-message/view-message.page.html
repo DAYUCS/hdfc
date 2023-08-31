@@ -14,7 +14,7 @@
 
 <ion-content [fullscreen]="true" *ngIf="transactions.length">
   <h1>{{transactions[0].txType}} - Inquiry</h1>
-
+  <ion-searchbar placeholder="Reference Number..." [(ngModel)]="searchText" animated="true"></ion-searchbar>
   <ion-list>
     <ion-list-header>
       <ion-label class="ion-text-wrap">Reference Number</ion-label>
@@ -23,7 +23,7 @@
       <ion-label class="ion-text-wrap">Transaction Amount</ion-label>
       <ion-label class="ion-text-wrap">Current Status</ion-label>
     </ion-list-header>
-    <ion-item *ngFor="let trx of transactions">
+    <ion-item *ngFor="let trx of transactions | searchFilter: searchText">
       <ion-label class="ion-text-wrap">{{trx.refNo}}</ion-label>
       <ion-label class="ion-text-wrap">{{trx.txDate}}</ion-label>
       <ion-label class="ion-text-wrap">{{trx.txBeneficiary}}</ion-label>

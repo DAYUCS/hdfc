@@ -14,6 +14,7 @@ export class ViewMessagePage implements OnInit {
   private trx = inject(TrxService);
   private activatedRoute = inject(ActivatedRoute);
   private platform = inject(Platform);
+  public searchText = '';
 
   constructor() {}
 
