@@ -1,4 +1,4 @@
-<ion-item *ngIf="message" [routerLink]="'/message/' + message.txType" [detail]="false">
+<ion-item *ngIf="message" [routerLink]="message.recNumber ? '/message/' + message.txType : null" [detail]="false">
   <ion-label>{{message.txType}}</ion-label>
   <ion-badge color="primary">{{message.recNumber}}</ion-badge>
 </ion-item>

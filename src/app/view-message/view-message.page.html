@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="transactions">
+<ion-content [fullscreen]="true" *ngIf="transactions.length">
   <h1>{{transactions[0].txType}} - Inquiry</h1>
 
   <ion-list>
