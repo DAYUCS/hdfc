@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'view-details/:refNo',
-    loadChildren: () => import('./view-details/view-details/view-details.module').then( m => m.ViewDetailsPageModule)
+    loadChildren: () => import('./view-details/view-details.module').then( m => m.ViewDetailsPageModule)
   },
 
 ];
