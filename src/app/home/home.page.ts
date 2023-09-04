@@ -15,6 +15,7 @@ export class HomePage {
 
   refresh(ev: any) {
     setTimeout(() => {
+      this.getMessages();
       (ev as RefresherCustomEvent).detail.complete();
     }, 3000);
   }
