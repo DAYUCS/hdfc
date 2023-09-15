@@ -5,6 +5,8 @@ import { TextToSpeech  } from '@capacitor-community/text-to-speech';
 import { MessageComponent } from '../message/message.component';
 
 import { DataService, Message } from '../services/data.service';
+import { OpenaiService, Result, Data } from '../services/openai.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,12 @@ import { DataService, Message } from '../services/data.service';
 })
 export class HomePage {
   private data = inject(DataService);
+  private openai = inject(OpenaiService);
+  public gettrxtype$!: Observable<any>;
   recording = false;
   promptText = 'Which type of transaction do you want to show?';
   comText = '';
+  trxType = '';
 
   constructor() {
     SpeechRecognition.requestPermissions().then(
@@ -36,6 +41,10 @@ export class HomePage {
   }
 
   async startRecognition() {
+    this.comText = 'Let me check the records of BG Issuance first';
+    this.callOpenai();
+
+    /*
     const { available } = await SpeechRecognition.available();
 
     if (available) {
@@ -54,26 +63,23 @@ export class HomePage {
           this.comText = data.matches[0];
           console.log("the command is ", this.comText);
         }
-
-        // Android has different result type
-        //if (data.value && data.value.length > 0) {
-        //  this.comText = data.value[0];
-        //  console.log("the command is ", this.comText);
-        //}
-
       });
     }
-
+    */
   }
   
   async stopRecognition() {
     this.recording = false;
+    if (this.comText && this.comText.length > 0) {
+      //this.speakText("Let me think");
+      await this.callOpenai();
+    } 
     await SpeechRecognition.stop();
   }
 
-  speakText() {
+  speakText(prompt: string) {
       TextToSpeech.speak({
-        text: this.promptText,
+        text: prompt,
         lang: 'en-US',
         rate: 1.0,
         pitch: 1.0,
@@ -81,4 +87,14 @@ export class HomePage {
         category: 'abmient',
       });
   }
+
+  callOpenai() {
+    //this.speakText("let me ask opanapi");
+    this.openai.getTrxType(this.comText).subscribe(
+      (data: Result) => {
+        this.trxType = data.data.trxType;
+        console.log("ChatGPT response: " + this.trxType);
+      });
+  }
+
 }
