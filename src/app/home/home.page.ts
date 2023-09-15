@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { SpeechRecognition  } from '@capacitor-community/speech-recognition';
 import { TextToSpeech  } from '@capacitor-community/text-to-speech';
@@ -22,7 +23,7 @@ export class HomePage {
   comText = '';
   trxType = '';
 
-  constructor() {
+  constructor(private router: Router) {
     SpeechRecognition.requestPermissions().then(
       () => {
         console.log('SpeechRecognition.requestPermissions() OK');
@@ -41,10 +42,9 @@ export class HomePage {
   }
 
   async startRecognition() {
-    this.comText = 'Let me check the records of BG Issuance first';
-    this.callOpenai();
+    //this.comText = 'Let me check the records of BG Issuance first';
+    //this.callOpenai();
 
-    /*
     const { available } = await SpeechRecognition.available();
 
     if (available) {
@@ -65,14 +65,14 @@ export class HomePage {
         }
       });
     }
-    */
+  
   }
   
   async stopRecognition() {
     this.recording = false;
+    
     if (this.comText && this.comText.length > 0) {
-      //this.speakText("Let me think");
-      await this.callOpenai();
+      this.callOpenai();
     } 
     await SpeechRecognition.stop();
   }
@@ -94,6 +94,8 @@ export class HomePage {
       (data: Result) => {
         this.trxType = data.data.trxType;
         console.log("ChatGPT response: " + this.trxType);
+        this.speakText("You selected " + this.trxType);
+        this.router.navigate(['message/', this.trxType]);
       });
   }
 
