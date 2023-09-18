@@ -4,10 +4,13 @@ import { RefresherCustomEvent } from '@ionic/angular';
 import { SpeechRecognition  } from '@capacitor-community/speech-recognition';
 import { TextToSpeech  } from '@capacitor-community/text-to-speech';
 import { MessageComponent } from '../message/message.component';
+import { CapacitorHttp, HttpResponse } from '@capacitor/core';
 
 import { DataService, Message } from '../services/data.service';
 import { OpenaiService, Result, Data } from '../services/openai.service';
 import { Observable } from 'rxjs';
+
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -57,11 +60,11 @@ export class HomePage {
       });
 
       SpeechRecognition.addListener("partialResults", (data: any) => {
-        console.log("partialResults was fired: ", data.matches);
-        console.log("data matches length is ", data.matches.length);
+        console.log("partialResults was fired: " + data.matches);
+        //console.log("data matches length is ", data.matches.length);
         if (data.matches && data.matches.length > 0) {
           this.comText = data.matches[0];
-          console.log("the command is ", this.comText);
+          console.log("the command is " + this.comText);
         }
       });
     }
@@ -69,12 +72,18 @@ export class HomePage {
   }
   
   async stopRecognition() {
+    console.log("stopping recognition");
+    console.log("comText is " + this.comText + " and length is " + this.comText.length );
+    if (this.comText && this.comText.length > 0) {
+      console.log("call OpenAI with command " + this.comText);
+      this.callOpenai();
+    }
+
+    // stop listening partial results
+    SpeechRecognition.removeAllListeners();
+    SpeechRecognition.stop();
     this.recording = false;
     
-    if (this.comText && this.comText.length > 0) {
-      this.callOpenai();
-    } 
-    await SpeechRecognition.stop();
   }
 
   speakText(prompt: string) {
@@ -90,13 +99,20 @@ export class HomePage {
 
   callOpenai() {
     //this.speakText("let me ask opanapi");
-    this.openai.getTrxType(this.comText).subscribe(
-      (data: Result) => {
-        this.trxType = data.data.trxType;
-        console.log("ChatGPT response: " + this.trxType);
-        this.speakText("You selected " + this.trxType);
-        this.router.navigate(['message/', this.trxType]);
-      });
+    const options = {
+      url: `${environment.aiBaseUrl}/trxtype`,
+      params: { trxTypeCommand: this.comText },
+    };
+    
+    CapacitorHttp.get(options).then((response) => {
+      console.log("OpenAI Response: " + JSON.stringify(response.data));
+      const result = JSON.stringify(response.data);
+      this.trxType = (JSON.parse(result)).data.trxType;
+      console.log("ChatGPT response: " + this.trxType);
+      this.speakText("You selected " + this.trxType);
+      this.router.navigate(['message/', this.trxType]);
+    });
+    
   }
 
 }

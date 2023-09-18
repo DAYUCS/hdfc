@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  aiBaseUrl: 'http://10.39.101.14:4000/api'
+  aiBaseUrl: 'https://indirectly-many-bream.ngrok-free.app/api'
 };
 
 /*
