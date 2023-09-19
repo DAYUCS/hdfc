@@ -7,8 +7,6 @@ import { MessageComponent } from '../message/message.component';
 import { CapacitorHttp, HttpResponse } from '@capacitor/core';
 
 import { DataService, Message } from '../services/data.service';
-import { OpenaiService, Result, Data } from '../services/openai.service';
-import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 
@@ -19,8 +17,6 @@ import { environment } from '../../environments/environment';
 })
 export class HomePage {
   private data = inject(DataService);
-  private openai = inject(OpenaiService);
-  public gettrxtype$!: Observable<any>;
   recording = false;
   promptText = 'Which type of transaction do you want to show?';
   comText = '';
@@ -35,7 +31,7 @@ export class HomePage {
 
   refresh(ev: any) {
     setTimeout(() => {
-      this.getMessages();
+      // Refresh data here;
       (ev as RefresherCustomEvent).detail.complete();
     }, 3000);
   }
@@ -61,7 +57,6 @@ export class HomePage {
 
       SpeechRecognition.addListener("partialResults", (data: any) => {
         console.log("partialResults was fired: " + data.matches);
-        //console.log("data matches length is ", data.matches.length);
         if (data.matches && data.matches.length > 0) {
           this.comText = data.matches[0];
           console.log("the command is " + this.comText);
@@ -77,6 +72,8 @@ export class HomePage {
     if (this.comText && this.comText.length > 0) {
       console.log("call OpenAI with command " + this.comText);
       this.callOpenai();
+    } else {
+      this.speakText("Pardon, would you please try again?");
     }
 
     // stop listening partial results
@@ -105,12 +102,17 @@ export class HomePage {
     };
     
     CapacitorHttp.get(options).then((response) => {
-      console.log("OpenAI Response: " + JSON.stringify(response.data));
-      const result = JSON.stringify(response.data);
-      this.trxType = (JSON.parse(result)).data.trxType;
-      console.log("ChatGPT response: " + this.trxType);
-      this.speakText("You selected " + this.trxType);
-      this.router.navigate(['message/', this.trxType]);
+      console.log("OpenAI Response Status: " + response.status);
+      if ( response.status == 200) {
+        console.log("OpenAI Response: " + JSON.stringify(response.data));
+        const result = JSON.stringify(response.data);
+        this.trxType = (JSON.parse(result)).data.trxType;
+        console.log("ChatGPT response: " + this.trxType);
+        this.speakText("You selected " + this.trxType);
+        this.router.navigate(['message/', this.trxType]);
+      } else {
+        this.speakText("Sorry, I don't understand. Please try again");
+      }
     });
     
   }
